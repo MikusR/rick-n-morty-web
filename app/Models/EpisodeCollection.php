@@ -13,7 +13,7 @@ class EpisodeCollection
 
     public function add(Episode $episode): void
     {
-        $this->episodes[$episode->getId()] = $episode;
+        $this->episodes[$episode->getEpisode()] = $episode;
     }
 
     public function list(): array

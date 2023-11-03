@@ -12,6 +12,8 @@ class Api
 {
     private Client $client;
     private const EPISODE_URL = 'https://rickandmortyapi.com/api/episode';
+    private const CHARACTER_URL = 'https://rickandmortyapi.com/api/character';
+
 
     public function __construct()
     {
@@ -58,13 +60,24 @@ class Api
             $data = json_decode((string)$response->getBody());
             $characters = new CharacterCollection();
             foreach ($data->characters as $character) {
+                $characters->add(
+                    new Character(
+                        $character->id,
+                        $character->status,
+                        $character->species,
+                        $character->type,
+                        $character->gender,
+                        $character->image,
+                    )
+                );
             }
 
             return new Episode(
                 $data->id,
                 $data->name,
                 $data->air_date,
-                $data->episode
+                $data->episode,
+                $characters
             );
         }
     }
