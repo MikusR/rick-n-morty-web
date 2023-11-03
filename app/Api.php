@@ -32,12 +32,17 @@ class Api
             $data = json_decode((string)$response->getBody());
 
             foreach ($data->results as $result) {
+                $characters = new CharacterCollection();
+                foreach ($result->characters as $character) {
+                    $characters->add($this->fetchCharacter($character));
+                }
                 $episodes->add(
                     new Episode(
                         $result->id,
                         $result->name,
                         $result->air_date,
-                        $result->episode
+                        $result->episode,
+                        $characters
                     )
                 );
             }
@@ -54,31 +59,36 @@ class Api
 
     public function fetchEpisode(int $id): Episode
     {
-        while (true) {
-            $response = $this->client->get(self::EPISODE_URL . "/$id");
+        $response = $this->client->get(self::EPISODE_URL . "/$id");
 
-            $data = json_decode((string)$response->getBody());
-            $characters = new CharacterCollection();
-            foreach ($data->characters as $character) {
-                $characters->add(
-                    new Character(
-                        $character->id,
-                        $character->status,
-                        $character->species,
-                        $character->type,
-                        $character->gender,
-                        $character->image,
-                    )
-                );
-            }
-
-            return new Episode(
-                $data->id,
-                $data->name,
-                $data->air_date,
-                $data->episode,
-                $characters
-            );
+        $data = json_decode((string)$response->getBody());
+        $characters = new CharacterCollection();
+        foreach ($data->characters as $character) {
+            $characters->add($this->fetchCharacter($character));
         }
+        return new Episode(
+            $data->id,
+            $data->name,
+            $data->air_date,
+            $data->episode,
+            $characters
+        );
+    }
+
+    public function fetchCharacter(string $url): Character
+    {
+        $response = $this->client->get("$url");
+
+        $character = json_decode((string)$response->getBody());
+
+        return new Character(
+            $character->id,
+            $character->name,
+            $character->status,
+            $character->species,
+            $character->type,
+            $character->gender,
+            $character->image
+        );
     }
 }

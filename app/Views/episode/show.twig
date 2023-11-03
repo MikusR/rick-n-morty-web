@@ -6,5 +6,13 @@
 
 </a>
 <div>Airdate: {{ episode.airdate }}</div>
+
+{% for character in episode.characters.list %}
+    <div>{{ character.name }}</div>
+    <img src="{{ character.image }}">
+
+    <br/>
+
+{% endfor %}
 <br/>
 

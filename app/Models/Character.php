@@ -10,9 +10,11 @@ class Character
     private string $type;
     private string $gender;
     private string $image;
+    private string $name;
 
     public function __construct(
         int $id,
+        string $name,
         string $status,
         string $species,
         string $type,
@@ -20,6 +22,7 @@ class Character
         string $image
     ) {
         $this->id = $id;
+        $this->name = $name;
         $this->status = $status;
         $this->species = $species;
         $this->type = $type;
@@ -34,6 +37,15 @@ class Character
     {
         return $this->id;
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    
 
     /**
      * @return string
