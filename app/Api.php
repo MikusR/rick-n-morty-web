@@ -47,4 +47,21 @@ class Api
 
         return $episodes;
     }
+
+    public function fetchEpisode(int $id): Episode
+    {
+        while (true) {
+            $response = $this->client->get(self::EPISODE_URL . "/$id");
+
+            $data = json_decode((string)$response->getBody());
+
+
+            return new Episode(
+                $data->id,
+                $data->name,
+                $data->air_date,
+                $data->episode
+            );
+        }
+    }
 }

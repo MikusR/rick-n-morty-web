@@ -23,4 +23,14 @@ class EpisodeController
             ]
         );
     }
+
+    public function show(int $id): Response
+    {
+        return new Response(
+            'episode/show',
+            [
+                'episode' => $this->api->fetchEpisode($id),
+            ]
+        );
+    }
 }

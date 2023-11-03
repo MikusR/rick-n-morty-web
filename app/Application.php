@@ -54,8 +54,7 @@ class Application
 
                     $view = $response->getViewName();
                     $data = $response->getData();
-//                    dump($data);
-//                    die;
+
                     echo $twig->render("$view.twig", $data);
 
                     break;
