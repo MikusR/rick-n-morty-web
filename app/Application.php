@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Controllers\EpisodeController;
+use App\Models\EpisodeDb;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
@@ -10,9 +12,12 @@ use FastRoute;
 
 class Application
 {
+    static EpisodeDb $episodeDb;
 
     public function run()
     {
+        EpisodeDb::init();
+
         $loader = new FilesystemLoader(__DIR__ . '/../app/Views');
         $twig = new Environment($loader, ['debug' => true]);
         $twig->addExtension(new DebugExtension());
@@ -20,7 +25,9 @@ class Application
         {
             $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $router) {
                 $router->addRoute('GET', '/', ['App\Controllers\EpisodeController', 'index']);
-                $router->addRoute('GET', '/episode/{id:\d+}', ['App\Controllers\EpisodeController', 'show']);
+                $router->addRoute('GET', '/episode/search/{episode}', ['App\Controllers\EpisodeController', 'search']);
+                $router->addRoute('GET', '/episode/search', ['App\Controllers\EpisodeController', 'search']);
+                $router->addRoute('GET', '/episode/{id}', ['App\Controllers\EpisodeController', 'show']);
             });
 
 // Fetch method and URI from somewhere
@@ -46,15 +53,14 @@ class Application
                     $handler = $routeInfo[1];
                     $vars = $routeInfo[2];
                     [$className, $method] = $handler;
-                    $id = (isset($vars['id'])) ? (int)$vars['id'] : null;
+//                    $id = (isset($vars['id'])) ? (int)$vars['id'] : null;
                     /**
                      * @var Response $response
                      */
-                    $response = (new $className())->{$method}($id);
+                    $response = (new $className())->{$method}($vars);
 
                     $view = $response->getViewName();
                     $data = $response->getData();
-
                     echo $twig->render("$view.twig", $data);
 
                     break;
