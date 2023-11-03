@@ -9,17 +9,20 @@ class Episode
     private string $name;
     private string $airDate;
     private string $episode;
+    private array $characters;
 
     public function __construct(
         int $id,
         string $name,
         string $airDate,
-        string $episode
+        string $episode,
+        array $characters
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->airDate = $airDate;
         $this->episode = $episode;
+        $this->characters = $characters;
     }
 
 
@@ -44,4 +47,8 @@ class Episode
         return $this->episode;
     }
 
+    public function getCharacters(): array
+    {
+        return $this->characters;
+    }
 }

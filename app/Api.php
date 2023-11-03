@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Character;
+use App\Models\CharacterCollection;
 use App\Models\Episode;
 use App\Models\EpisodeCollection;
 use GuzzleHttp\Client;
@@ -54,7 +56,9 @@ class Api
             $response = $this->client->get(self::EPISODE_URL . "/$id");
 
             $data = json_decode((string)$response->getBody());
-
+            $characters = new CharacterCollection();
+            foreach ($data->characters as $character) {
+            }
 
             return new Episode(
                 $data->id,
