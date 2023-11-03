@@ -9,14 +9,14 @@ class Episode
     private string $name;
     private string $airDate;
     private string $episode;
-    private CharacterCollection $characters;
+    private ?CharacterCollection $characters;
 
     public function __construct(
         int $id,
         string $name,
         string $airDate,
         string $episode,
-        CharacterCollection $characters
+        CharacterCollection $characters = null
     ) {
         $this->id = $id;
         $this->name = $name;

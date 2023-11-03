@@ -32,17 +32,12 @@ class Api
             $data = json_decode((string)$response->getBody());
 
             foreach ($data->results as $result) {
-                $characters = new CharacterCollection();
-                foreach ($result->characters as $character) {
-                    $characters->add($this->fetchCharacter($character));
-                }
                 $episodes->add(
                     new Episode(
                         $result->id,
                         $result->name,
                         $result->air_date,
-                        $result->episode,
-                        $characters
+                        $result->episode
                     )
                 );
             }
