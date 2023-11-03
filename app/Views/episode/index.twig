@@ -1,0 +1,11 @@
+<h3>Episodes</h3>
+{% for episode in episodes.list %}
+
+    <a href="/episode/{{ episode.id }}">
+        Episode {{ episode.id }}. {{ episode.name }}
+
+    </a>
+    <div>Airdate: {{ episode.airdate }}</div>
+    <br/>
+
+{% endfor %}
