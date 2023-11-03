@@ -1,0 +1,15 @@
+{
+    "name": "mikus/rick-n-morty-web",
+    "autoload": {
+        "psr-4": {
+            "Mikus\\RickNMortyWeb\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MikusR",
+            "email": "mikus.rakis@gmail.com"
+        }
+    ],
+    "require": {}
+}
