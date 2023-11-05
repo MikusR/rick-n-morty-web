@@ -53,12 +53,13 @@ class Application
                     $handler = $routeInfo[1];
                     $vars = $routeInfo[2];
                     [$className, $method] = $handler;
-//                    $id = (isset($vars['id'])) ? (int)$vars['id'] : null;
+
+//
                     /**
                      * @var Response $response
                      */
                     $response = (new $className())->{$method}($vars);
-
+//
                     $view = $response->getViewName();
                     $data = $response->getData();
                     echo $twig->render("$view.twig", $data);
